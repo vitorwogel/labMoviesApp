@@ -8,7 +8,7 @@ const MustWatch = ({ movie }) => {
   
     const handleMustWatch = (e) => {
       e.preventDefault();
-      // context.addMustWatch(movie);
+      context.addMustWatch(movie);
     };
   
     return (
