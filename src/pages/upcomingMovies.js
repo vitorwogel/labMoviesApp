@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { getUpcoming } from "../api/tmdb-api";
 import PageTemplate from "../components/templateMovieListPage";
 import { useQuery } from 'react-query';
@@ -7,7 +7,7 @@ import MustWatch from '../components/cardIcons/mustWatch'
 
 const UpcomingMovies = (props) => {
   
-  const {  data, error, isLoading, isError }  = useQuery('discover', getUpcoming)
+  const {  data, error, isLoading, isError }  = useQuery('upcoming', getUpcoming)
 
   if (isLoading) {
     return <Spinner />
@@ -21,7 +21,6 @@ const UpcomingMovies = (props) => {
   // Redundant, but necessary to avoid app crashing.
   const favourites = movies.filter(m => m.favourite)
   localStorage.setItem('favourites', JSON.stringify(favourites))
-  const addToFavourites = (movieId) => true 
 
   return (
     <PageTemplate
