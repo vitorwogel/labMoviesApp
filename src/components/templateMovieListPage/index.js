@@ -33,7 +33,7 @@ function MovieListPageTemplate({ movies, title, action }) {
         <Header title={title} />
       </Grid>
       <Grid item container spacing={5}>
-        <Grid key="find" item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <Grid key="find" item xs={12} sm={6} md={6} lg={4} xl={3}>
           <FilterCard
             onUserInput={handleChange}
             titleFilter={nameFilter}
