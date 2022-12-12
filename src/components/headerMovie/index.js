@@ -27,7 +27,7 @@ const MovieHeader = (props) => {
       </IconButton>
 
       <Typography variant="h4" component="h3">
-        {movie.title}
+        {movie.title == null ? (movie.name) : movie.title}
         <a href={movie.homepage}>
           <HomeIcon color="primary" />
         </a>

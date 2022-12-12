@@ -48,16 +48,16 @@ const MovieDetails = ({ movie }) => {
         ))}
       </Paper>
       <Paper component="ul" sx={root}>
-        <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
+        <Chip icon={<AccessTimeIcon />} label={`${movie.name == null ? (movie.runtime) : movie.episode_run_time} min.`} />
         <Chip
-          icon={<MonetizationIcon />}
-          label={`${movie.revenue.toLocaleString()}`}
+          icon={movie.name == null ? (<MonetizationIcon />) : null}
+          label={movie.name == null ? (`${movie.revenue.toLocaleString()}`) : `Seasons: ${movie.number_of_seasons}`}
         />
         <Chip
           icon={<StarRate />}
           label={`${movie.vote_average} (${movie.vote_count}`}
         />
-        <Chip label={`Released: ${movie.release_date}`} />
+        <Chip label={`Released: ${movie.name == null ? (movie.release_date) : movie.first_air_date}`} />
       </Paper>
       <Paper 
         component="ul" 
@@ -66,11 +66,13 @@ const MovieDetails = ({ movie }) => {
         <li>
           <Chip label="Production Countries" sx={chip} color="primary" />
         </li>
-        {movie.production_countries.map((c) => (
+        { movie.name == null ? (
+        movie.production_countries.map((c) => (
           <li key={c.name}>
             <Chip label={c.name} sx={chip} />
           </li>
-        ))}
+        ))) : <Chip label={movie.origin_country} sx={chip} />
+        }
       </Paper>
       <Fab
         color="secondary"
