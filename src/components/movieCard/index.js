@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
-import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
@@ -17,7 +16,7 @@ import img from '../../images/film-poster-placeholder.png'
 import { MoviesContext } from "../../contexts/moviesContext";
 
 export default function MovieCard({ movie, action }) {
-  const { favourites, addToFavourites } = useContext(MoviesContext);
+  const { favourites } = useContext(MoviesContext);
  
    if (favourites.find((id) => id === movie.id)) {
      movie.favourite = true;
@@ -25,11 +24,6 @@ export default function MovieCard({ movie, action }) {
      movie.favourite = false
    }
  
-   const handleAddToFavourite = (e) => {
-     e.preventDefault();
-     addToFavourites(movie);
-   };
-
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -41,7 +35,11 @@ export default function MovieCard({ movie, action }) {
           ) : null
         }
         title={
-          <Typography variant="h5" component="p">
+          movie.title == null ? (
+            <Typography variant="h5" component="p">
+              {movie.name}{" "}
+            </Typography>
+          ) : <Typography variant="h5" component="p"> 
             {movie.title}{" "}
           </Typography>
         }
@@ -59,7 +57,9 @@ export default function MovieCard({ movie, action }) {
           <Grid item xs={6}>
             <Typography variant="h6" component="p">
               <CalendarIcon fontSize="small" />
-              {movie.release_date}
+              {movie.release_date == null ? (
+                movie.first_air_date
+              ) : movie.release_date}
             </Typography>
           </Grid>
           <Grid item xs={6}>
