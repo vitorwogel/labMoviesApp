@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useContext, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthContext } from '../contexts/authContext';
 
 function Copyright(props) {
   return (
@@ -28,16 +31,27 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+export default function SignIn(props) {
+
+  const context = useContext(AuthContext)
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = (event) => {
+    event.preventDefault()
+    context.authenticate(userName, password);
   };
 
+  // Set 'from' to path where browser is redirected after a successful login.
+  // Either / or the protected path user tried to access.
+  //const { from } = props.location.state || { from: { pathname: "/" } };
+
+  /*
+  if (context.isAuthenticated === true) {
+    return <Navigate to={'/'} />;
+  }
+  */
+ 
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -56,16 +70,20 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="userName"
+              label="User Name"
+              name="userName"
+              autoComplete="userName"
               autoFocus
+              value={userName}
+              onChange={e => {
+                setUserName(e.target.value)
+              }}
             />
             <TextField
               margin="normal"
@@ -76,6 +94,10 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={e => {
+                setPassword(e.target.value)
+              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

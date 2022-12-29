@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,6 +10,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Navigate } from "react-router-dom";
+import { AuthContext } from '../contexts/authContext';
+import { useContext, useState } from "react";
 
 function Copyright(props) {
   return (
@@ -28,7 +29,28 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function SignUp(props) {
+
+  const context = useContext(AuthContext)
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
+  const [registered, setRegistered] = useState(false);
+
+  const register = (event) => {
+    event.preventDefault()
+    if (password.length > 0 && password === passwordAgain) {
+      context.register(userName, password);
+      setRegistered(true);
+    }
+  }
+
+  //const { from } = props.location.state || { from: { pathname: "/" } };
+
+  if (registered === true) {
+    return <Navigate to="./login" />;
+  }
+/*
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -37,7 +59,7 @@ export default function SignUp() {
       password: data.get('password'),
     });
   };
-
+*/
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -56,54 +78,49 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={register} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="userName"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="userName"
+                  label="User Name"
                   autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
+                  value={userName}
+                  onChange={e => {
+                    setUserName(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
+                  id="password"
                   label="Password"
                   type="password"
-                  id="password"
-                  autoComplete="new-password"
+                  name="password"
+                  value={password}
+                  onChange={e => {
+                    setPassword(e.target.value)
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                <TextField
+                  required
+                  fullWidth
+                  name="passwordAgain"
+                  label="Password Again"
+                  type="password"
+                  id="passwordAgain"
+                  value={passwordAgain}
+                  onChange={e => {
+                    setPasswordAgain(e.target.value)
+                  }}
                 />
               </Grid>
             </Grid>
