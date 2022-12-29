@@ -15,6 +15,8 @@ import AddMovieReviewPage from './pages/addMovieReviewPage'
 import PopularMovies from './pages/popularMovies'
 import TvShows from './pages/tvShowsPage'
 import TvShow from './pages/showDetails'
+import SignIn from "./pages/signInPage";
+import SignUp from "./pages/signUpPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,6 +46,8 @@ const App = () => {
             <Route path="movies/upcoming" element={<UpcomingMovies />} />
             <Route path="/movies/upcoming/:id" element={<UpcomingDetails />} />
             <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
+            <Route path="/signIn" element={<SignIn/>} />
+            <Route path="/signUp" element={<SignUp/>} />
           </Routes>
         </MoviesContextProvider>
       </BrowserRouter>
